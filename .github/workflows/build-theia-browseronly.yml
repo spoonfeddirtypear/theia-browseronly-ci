@@ -36,6 +36,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install native build dependencies (native-keymap, an Electron-only addon still built by the monorepo's root postinstall even though browser-only doesn't need it, requires X11/xkbfile headers not present by default on GitHub-hosted runners)
+        run: sudo apt-get update && sudo apt-get install -y libx11-dev libxkbfile-dev
+
       - name: Install (npm ci — respects the committed package-lock.json; this repo uses npm, not yarn, per its own Developing.md/Gitpod/Devfile configs, confirmed live this session)
         working-directory: theia
         run: npm ci
