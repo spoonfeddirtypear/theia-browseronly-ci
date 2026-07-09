@@ -40,6 +40,10 @@ jobs:
         working-directory: theia
         run: yarn install --ignore-scripts
 
+      - name: Build re-exports helper (afterInstall skipped by --ignore-scripts; prepare:no-native's own lerna target no-ops here since this package has no 'prepare' script — building explicitly instead)
+        working-directory: theia
+        run: npx lerna run build --scope="@theia/re-exports"
+
       - name: Prepare (no-native) inside examples/browser-only
         working-directory: theia/examples/browser-only
         run: yarn prepare:no-native
