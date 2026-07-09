@@ -36,21 +36,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install (no native rebuild — matches maintainers' documented no-native path)
+      - name: Install (npm ci — respects the committed package-lock.json; this repo uses npm, not yarn, per its own Developing.md/Gitpod/Devfile configs, confirmed live this session)
         working-directory: theia
-        run: yarn install --ignore-scripts
-
-      - name: Build re-exports helper (afterInstall skipped by --ignore-scripts; prepare:no-native's own lerna target no-ops here since this package has no 'prepare' script — building explicitly instead)
-        working-directory: theia
-        run: npx lerna run build --scope="@theia/re-exports"
-
-      - name: Prepare (no-native) inside examples/browser-only
-        working-directory: theia/examples/browser-only
-        run: yarn prepare:no-native
+        run: npm ci
 
       - name: Build browser-only example
-        working-directory: theia/examples/browser-only
-        run: yarn build
+        working-directory: theia
+        run: npm run build:browser-only
 
       - name: Locate build output
         id: locate
